@@ -156,6 +156,7 @@ def run(
                 # Print results
                 cnt = []
                 lab = []
+                                    
                 for c in det[:, 5].unique():
                     n = (det[:, 5] == c).sum()  # detections per class
                     n = int((det[:, 5] == c).sum())
@@ -163,7 +164,8 @@ def run(
                     s += total_det_per_class + ', '
                     cnt.append(n)
                     lab.append(names[int(c)])
-                    
+                
+                
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
                     if save_txt:  # Write to file
@@ -178,6 +180,10 @@ def run(
                         annotator.box_label(xyxy, label, color=colors(c, True))
                     if save_crop:
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
+                        
+            else:
+                cnt = [0,0,0]
+                lab = ["person","backpack","suitcase"]
 
             # Stream results
             im0 = annotator.result()
