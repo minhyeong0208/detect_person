@@ -1,67 +1,28 @@
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Image</title>
-</head>
-<body>
-    <h4>Upload Image</h4>
-    <form action="{{ url_for('process_image') }}" method="POST" enctype="multipart/form-data">
-        <input type="file" name="image">
-        <input type="submit" value="detect">
-    </form>
-</body>
-</html>-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Image</title>
+    <title>YOLOv5</title>
     <!-- 테일윈드 CSS CDN 링크 -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.17/dist/tailwind.min.css" rel="stylesheet">
     <!-- 토스트 UI CSS CDN 링크 -->
     <link href="https://cdn.jsdelivr.net/npm/toastui/dist/toastui.min.css" rel="stylesheet">
     <style>
-        .upload-form input[type="file"] {
-            display: none;
+        .label {
+            font-size: 12px; /* 글자 크기를 조정할 수 있는 값으로 변경 */
         }
-        .upload-form .custom-file-upload {
-            border: 2px solid #4a5568;
-            background-color: #f9fafb;
-            color: #4a5568;
-            display: inline-block;
-            padding: 8px 12px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .upload-form .custom-file-upload:hover {
-            background-color: #edf2f7;
-        }
-        .upload-form input[type="submit"] {
-            border: none;
-            background-color: #2b6cb0;
-            color: #fff;
-            padding: 8px 12px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .upload-form input[type="submit"]:hover {
-            background-color: #2c5282;
-        }
-    </style>
+    </style>   
 </head>
 <body class="bg-gray-200 p-10">
-    <h4 class="text-2xl mb-4">Upload Image</h4>
-    <form class="upload-form" action="{{ url_for('process_image') }}" method="POST" enctype="multipart/form-data">
-        <label for="image" class="custom-file-upload">Choose Image</label>
-        <input type="file" id="image" name="image">
-        <input type="submit" value="Detect" class="ml-2">
-    </form>
+    <h4 class="text-2xl mb-4">Object Detection</h4>
+    <img src="{{ save_path }}" alt="Object Detection Result" class="max-w-full mb-4">
+    <p class="flex flex-wrap">
+        {% for index in range(length) %}
+            <span class="label bg-blue-500 text-white px-2 py-1 rounded-full mb-2 mr-2">{{ lab[index] }} : {{ cnt[index] }}</span>
+        {% endfor %}
+    </p>
 
     <!-- 토스트 UI JavaScript CDN 링크 -->
     <script src="https://cdn.jsdelivr.net/npm/toastui@2.2.17/dist/toastui.min.js"></script>

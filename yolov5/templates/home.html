@@ -1,43 +1,73 @@
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YOLOv5</title>
-</head>
-<body>
-    <h4>Object Detection</h4>
-    <img src="{{ save_path }}" width="400">
-    <p>
-        {% for index in range(length) %}  
-            {{ lab[index] }} : {{ cnt[index] }}&nbsp;&nbsp;
-        {% endfor %}
-    </p>
-</body>
-</html>-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YOLOv5</title>
-    <!-- 테일윈드 CSS CDN 링크 -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.17/dist/tailwind.min.css" rel="stylesheet">
-    <!-- 토스트 UI CSS CDN 링크 -->
-    <link href="https://cdn.jsdelivr.net/npm/toastui/dist/toastui.min.css" rel="stylesheet">
+    <title>Upload Image</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            border-bottom: 2px solid black;
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: center;
+        }
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 400px;
+            margin: 0 auto;
+            border: 2px solid black;
+            padding: 20px;
+        }
+        .upload-form h4 {
+            margin-top: 0;
+        }
+        .upload-form input[type="file"] {
+            margin-bottom: 10px;
+        }
+        .upload-form input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .upload-form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .description {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
-<body class="bg-gray-200 p-10">
-    <h4 class="text-2xl mb-4">Object Detection</h4>
-    <img src="{{ save_path }}" alt="Object Detection Result" class="max-w-full mb-4">
-    <p class="flex flex-wrap">
-        {% for index in range(length) %}
-            <span class="label bg-blue-500 text-white px-2 py-1 rounded-full mb-2 mr-2">{{ lab[index] }} : {{ cnt[index] }}</span>
-        {% endfor %}
-    </p>
-
-    <!-- 토스트 UI JavaScript CDN 링크 -->
-    <script src="https://cdn.jsdelivr.net/npm/toastui@2.2.17/dist/toastui.min.js"></script>
+<body>
+    <div class="logo">Crowd Management</div>
+    <div class="upload-form">
+        <h4>Upload Image</h4>
+        <form action="{{ url_for('process_image') }}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="image">
+            <p>원하시는 파일을 업로드 해주세요.</p>
+            <input type="submit" value="Detect">
+        </form>
+        <div class="description">
+            <p>위 사이트는 업로드한 이미지를 기반으로 사람, 백팩, 캐리어 등의 물체를 판별해 크라우드에 영향을 미치는 객체를 탐지하고 있습니다.</p>
+        </div>
+    </div>
 </body>
 </html>
