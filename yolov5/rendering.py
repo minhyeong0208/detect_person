@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('upload_file.html')
+    return render_template('result.html')
 
 
 @app.route('/process_image', methods=['POST'])
@@ -21,7 +21,7 @@ def process_image():
     length = len(cnt)
 
     # 결과를 다른 템플릿으로 전달
-    return render_template("index.html", cnt=cnt, lab=lab, length=length, save_path=save_path)
+    return render_template("home.html", cnt=cnt, lab=lab, length=length, save_path=save_path)
 
 
 

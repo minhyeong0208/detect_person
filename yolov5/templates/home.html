@@ -1,0 +1,43 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOLOv5</title>
+</head>
+<body>
+    <h4>Object Detection</h4>
+    <img src="{{ save_path }}" width="400">
+    <p>
+        {% for index in range(length) %}  
+            {{ lab[index] }} : {{ cnt[index] }}&nbsp;&nbsp;
+        {% endfor %}
+    </p>
+</body>
+</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOLOv5</title>
+    <!-- 테일윈드 CSS CDN 링크 -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.17/dist/tailwind.min.css" rel="stylesheet">
+    <!-- 토스트 UI CSS CDN 링크 -->
+    <link href="https://cdn.jsdelivr.net/npm/toastui/dist/toastui.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-200 p-10">
+    <h4 class="text-2xl mb-4">Object Detection</h4>
+    <img src="{{ save_path }}" alt="Object Detection Result" class="max-w-full mb-4">
+    <p class="flex flex-wrap">
+        {% for index in range(length) %}
+            <span class="label bg-blue-500 text-white px-2 py-1 rounded-full mb-2 mr-2">{{ lab[index] }} : {{ cnt[index] }}</span>
+        {% endfor %}
+    </p>
+
+    <!-- 토스트 UI JavaScript CDN 링크 -->
+    <script src="https://cdn.jsdelivr.net/npm/toastui@2.2.17/dist/toastui.min.js"></script>
+</body>
+</html>

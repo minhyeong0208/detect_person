@@ -159,7 +159,7 @@ def run(
                 lab = []
                                     
                 for c in det[:, 5].unique():
-                    n = (det[:, 5] == c).sum()  # detections per class
+                    #n = (det[:, 5] == c).sum()  # detections per class
                     n = int((det[:, 5] == c).sum())
                     total_det_per_class = '%g %ss, ' % (n, names[int(c)])
                     s += total_det_per_class + ', '
