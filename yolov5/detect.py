@@ -227,7 +227,7 @@ def run(
     if update:
         strip_optimizer(weights[0])  # update model (to fix SourceChangeWarning)
     
-    return cnt, lab
+    return cnt, lab, save_path
     
 
 
