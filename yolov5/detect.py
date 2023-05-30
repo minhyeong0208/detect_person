@@ -33,6 +33,7 @@ import os
 import platform
 import sys
 from pathlib import Path
+import time
 
 import torch
 
@@ -157,7 +158,7 @@ def run(
                 # Print results
                 cnt = []
                 lab = []
-                                    
+                             
                 for c in det[:, 5].unique():
                     #n = (det[:, 5] == c).sum()  # detections per class
                     n = int((det[:, 5] == c).sum())
