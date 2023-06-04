@@ -1,7 +1,7 @@
 # about detect.py
 
 이미지, 비디오, 디렉터리, glob, YouTube, 웹캠, 스트림 등에 대해 YOLOv5 탐지를 실행합니다
-
+```
 Usage - sources:
     $ python detect.py --weights yolov5s.pt --source 0                               # webcam
                                                      img.jpg                         # image
@@ -26,3 +26,4 @@ Usage - formats:
                                  yolov5s.tflite             # TensorFlow Lite
                                  yolov5s_edgetpu.tflite     # TensorFlow Edge TPU
                                  yolov5s_paddle_model       # PaddlePaddle
+```
