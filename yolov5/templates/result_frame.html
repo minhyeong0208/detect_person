@@ -9,56 +9,63 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.17/dist/tailwind.min.css" rel="stylesheet">
     <!-- 토스트 UI CSS CDN 링크 -->
     <link href="https://cdn.jsdelivr.net/npm/toastui/dist/toastui.min.css" rel="stylesheet">
-    
+    <style>
+        .label {
+            font-size: 12px; /* 글자 크기를 조정할 수 있는 값으로 변경 */
+        }
+    </style>
 </head>
-<body>
-    <!--<div id="result">
+<body class="bg-gray-200 p-10">
+    <h4 class="text-2xl mb-4">Object Detection</h4>
+    <!--<div>
         {% for result in results %}
-            <div class="frame">
+            <div class="frame" style="display: none;">
                 <img src="{{ result.save_path }}" alt="Frame {{ loop.index }}" width="300">
                 {% set cnt_length = result.cnt|length %}
                 {% for i in range(cnt_length) %}
-                        <span class="label">{{ result.lab[i] }} : {{ result.cnt[i] }}</span>
+                    <div class="label bg-blue-500 text-white px-2 py-1 rounded-full mb-2 mr-2 mt-2">{{ result.lab[i] }} : {{ result.cnt[i] }}</div>
                 {% endfor %}
             </div>
         {% endfor %}
     </div>-->
-    <div id="result-container">
-        <div id="image-container">
-            <img id="current-image" src="imageElement.src">
-        </div>
+    <div>
+        {% for result in results %}
+            <div class="frame" style="display: none;"> 
+                <div>
+                    <img src="{{ result.save_path }}" alt="Frame {{ loop.index }}" width="300">
+                </div>
+                <br>
+                <div>
+                    {% set cnt_length = result.cnt|length %}
+                    {% for i in range(cnt_length) %}
+                        <div class="label bg-blue-500 text-white px-2 py-1 rounded-full mb-2 mr-2 mt-2">{{ result.lab[i] }} : {{ result.cnt[i] }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
     </div>
-    
-    <script>
-        var results = [];  // 전역 변수로 결과 배열 선언
-    
-        // AJAX 요청
-        $.ajax({
-            url: '/process_video',
-            type: 'GET',
-            success: function(response) {
-                results = response.results;  // 결과를 전역 변수에 저장
-                displayNextImage();  // 다음 이미지 출력 함수 호출
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-            }
-        });
-    
-        function displayNextImage() {
-            if (results.length > 0) {
-                var currentResult = results.shift();  // 배열에서 첫 번째 요소를 가져옴
-                var imagePath = currentResult.save_path;  // 이미지 경로
-    
-                // 이미지 요소에 경로 설정
-                var imageElement = document.getElementById('current-image');
-                imageElement.src = imagePath;
-    
-                // 다음 이미지 출력 대기
-                setTimeout(displayNextImage, 1000);  // 1초마다 다음 이미지 출력
-            }
-        }
-    </script>
+    <!-- 토스트 UI JavaScript CDN 링크 -->
+    <script src="https://cdn.jsdelivr.net/npm/toastui@2.2.17/dist/toastui.min.js"></script>
 
+    <script>
+        var frames = document.getElementsByClassName("frame");
+        var frameIndex = 0;
+
+        function showNextFrame() {
+            if (frameIndex >= frames.length) {
+                return frames[frameIndex-1].style.display = "flex";
+            }
+
+            frames[frameIndex].style.display = "flex";
+            frameIndex++;
+
+            setTimeout(function () {
+                frames[frameIndex - 1].style.display = "none";
+                showNextFrame();
+            }, 1000);
+        }
+
+        showNextFrame();
+    </script>
 </body>
 </html>
