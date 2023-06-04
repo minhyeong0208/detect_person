@@ -12,7 +12,7 @@
     
 </head>
 <body>
-    <div id="result">
+    <!--<div id="result">
         {% for result in results %}
             <div class="frame">
                 <img src="{{ result.save_path }}" alt="Frame {{ loop.index }}" width="300">
@@ -22,7 +22,43 @@
                 {% endfor %}
             </div>
         {% endfor %}
+    </div>-->
+    <div id="result-container">
+        <div id="image-container">
+            <img id="current-image" src="imageElement.src">
+        </div>
     </div>
+    
+    <script>
+        var results = [];  // 전역 변수로 결과 배열 선언
+    
+        // AJAX 요청
+        $.ajax({
+            url: '/process_video',
+            type: 'GET',
+            success: function(response) {
+                results = response.results;  // 결과를 전역 변수에 저장
+                displayNextImage();  // 다음 이미지 출력 함수 호출
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    
+        function displayNextImage() {
+            if (results.length > 0) {
+                var currentResult = results.shift();  // 배열에서 첫 번째 요소를 가져옴
+                var imagePath = currentResult.save_path;  // 이미지 경로
+    
+                // 이미지 요소에 경로 설정
+                var imageElement = document.getElementById('current-image');
+                imageElement.src = imagePath;
+    
+                // 다음 이미지 출력 대기
+                setTimeout(displayNextImage, 1000);  // 1초마다 다음 이미지 출력
+            }
+        }
+    </script>
 
 </body>
 </html>
