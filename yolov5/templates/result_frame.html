@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,61 +12,82 @@
     <link href="https://cdn.jsdelivr.net/npm/toastui/dist/toastui.min.css" rel="stylesheet">
     <style>
         .label {
-            font-size: 12px; /* 글자 크기를 조정할 수 있는 값으로 변경 */
+            font-size: 12px;
+            /* 글자 크기를 조정할 수 있는 값으로 변경 */
         }
     </style>
 </head>
+
 <body class="bg-gray-200 p-10">
     <h4 class="text-2xl mb-4">Object Detection</h4>
-    <!--<div>
-        {% for result in results %}
-            <div class="frame" style="display: none;">
-                <img src="{{ result.save_path }}" alt="Frame {{ loop.index }}" width="300">
-                {% set cnt_length = result.cnt|length %}
-                {% for i in range(cnt_length) %}
-                    <div class="label bg-blue-500 text-white px-2 py-1 rounded-full mb-2 mr-2 mt-2">{{ result.lab[i] }} : {{ result.cnt[i] }}</div>
-                {% endfor %}
-            </div>
+    <div class="grid grid-cols-2 gap-4">
+        {% for result in results_list[0] %}
+        <div class="frame1" style="display: none;">
+            <img src="{{ result.save_path }}" alt="Frame" width="300"><br>
+            {% set cnt_length = result.cnt|length %}
+            {% for i in range(cnt_length) %}
+            <span class="label">&nbsp;{{ result.lab[i] }} : {{ result.cnt[i] }}</span>
+            {% endfor %}
+        </div>
         {% endfor %}
-    </div>-->
-    <div>
-        {% for result in results %}
-            <div class="frame" style="display: none;"> 
-                <div>
-                    <img src="{{ result.save_path }}" alt="Frame {{ loop.index }}" width="300">
-                </div>
-                <br>
-                <div>
-                    {% set cnt_length = result.cnt|length %}
-                    {% for i in range(cnt_length) %}
-                        <div class="label bg-blue-500 text-white px-2 py-1 rounded-full mb-2 mr-2 mt-2">{{ result.lab[i] }} : {{ result.cnt[i] }}</div>
-                    {% endfor %}
-                </div>
-            </div>
+    </div>
+    <div height="300">&nbsp;</div>
+    <div class="grid grid-cols-2 gap-4">
+        {% for result in results_list[1] %}
+        <div class="frame2" style="display: none;">
+            <img src="{{ result.save_path }}" alt="Frame" width="300">
+            {% set cnt_length = result.cnt|length %}
+            {% for i in range(cnt_length) %}
+            <span class="label">&nbsp;{{ result.lab[i] }} : {{ result.cnt[i] }}</span>
+            {% endfor %}
+        </div>
         {% endfor %}
     </div>
     <!-- 토스트 UI JavaScript CDN 링크 -->
     <script src="https://cdn.jsdelivr.net/npm/toastui@2.2.17/dist/toastui.min.js"></script>
 
     <script>
-        var frames = document.getElementsByClassName("frame");
-        var frameIndex = 0;
+        var frames1 = document.getElementsByClassName("frame1");
+        var frameIndex1 = 0;
 
-        function showNextFrame() {
-            if (frameIndex >= frames.length) {
-                return frames[frameIndex-1].style.display = "flex";
+        function showNextFrame1() {
+            if (frameIndex1 >= frames1.length) {
+                return frames1[frameIndex1 - 1].style.display = "flex";
             }
 
-            frames[frameIndex].style.display = "flex";
-            frameIndex++;
+            frames1[frameIndex1].style.display = "flex";
+            frameIndex1++;
 
             setTimeout(function () {
-                frames[frameIndex - 1].style.display = "none";
-                showNextFrame();
+                frames1[frameIndex1 - 1].style.display = "none";
+                showNextFrame1();
             }, 1000);
         }
 
-        showNextFrame();
+        showNextFrame1();
+    </script>
+    <script>
+        var frames2 = document.getElementsByClassName("frame2");
+        var frameIndex2 = 0;
+
+        function showNextFrame2() {
+            if (frameIndex2 >= frames2.length) {
+                return frames2[frameIndex2 - 1].style.display = "flex";
+            }
+
+            frames2[frameIndex2].style.display = "flex";
+            frameIndex2++;
+
+            setTimeout(function () {
+                frames2[frameIndex2 - 1].style.display = "none";
+                showNextFrame2();
+            }, 1000);
+        }
+
+        setTimeout(showNextFrame2, 0); // 2번째 프레임은 2초 뒤에 시작하도록 설정
+
+        // showNextFrame2();
     </script>
 </body>
+
 </html>

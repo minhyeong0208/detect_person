@@ -70,7 +70,8 @@
     <div class="upload-form">
         <h4>Upload Image</h4>
         <form action="{{ url_for('process_image') }}" method="POST" enctype="multipart/form-data">
-            <input type="file" id="file" name="video" accept="video/mp4">
+            <input type="file" id="file-1" name="video" accept="video/mp4">
+            <input type="file" id="file-2" name="video" accept="video/mp4">
             <p>원하시는 파일을 업로드 해주세요.</p>
             <input type="submit" value="Detect" onclick="checkUpload(event)">
         </form>
@@ -79,18 +80,4 @@
         </div>
     </div>
 </body>
-<!--<body>
-    <div class="logo">Crowd Management</div>
-    <div class="upload-form">
-        <h4>Upload Image</h4>
-        <form action="{{ url_for('process_image') }}" method="POST" enctype="multipart/form-data">
-            <input type="file" id="file" name="image">
-            <p>원하시는 파일을 업로드 해주세요.</p>
-            <input type="submit" value="Detect" onclick="checkUpload(event)">
-        </form>
-        <div class="description">
-            <p>위 사이트는 업로드한 이미지를 기반으로 사람, 백팩, 캐리어 등의 물체를 판별해 크라우드에 영향을 미치는 객체를 탐지하고 있습니다.</p>
-        </div>
-    </div>
-</body>-->
 </html>

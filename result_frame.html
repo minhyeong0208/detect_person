@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOLOv5</title>
+    <!-- 테일윈드 CSS CDN 링크 -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.17/dist/tailwind.min.css" rel="stylesheet">
+    <!-- 토스트 UI CSS CDN 링크 -->
+    <link href="https://cdn.jsdelivr.net/npm/toastui/dist/toastui.min.css" rel="stylesheet">
+    <style>
+        .label {
+            font-size: 12px; /* 글자 크기를 조정할 수 있는 값으로 변경 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100% p-10">
+    <h4 class="text-2xl mb-4">Object Detection</h4>
+    <div>
+        {% for result in results %}
+            <div class="frame" style="display: none;"> 
+                <div>
+                    <img src="{{ result.save_path }}" alt="Frame {{ loop.index }}" width="300">
+                </div>
+                <br>
+                <div>
+                    {% set cnt_length = result.cnt|length %}
+                    {% for i in range(cnt_length) %}
+                        <div class="label bg-blue-500 text-white px-2 py-1 rounded-full ml-2 mb-2 mr-2 mt-2">{{ result.lab[i] }} : {{ result.cnt[i] }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <!-- 토스트 UI JavaScript CDN 링크 -->
+    <script src="https://cdn.jsdelivr.net/npm/toastui@2.2.17/dist/toastui.min.js"></script>
+
+    <script>
+        var frames = document.getElementsByClassName("frame");
+        var frameIndex = 0;
+
+        function showNextFrame() {
+            if (frameIndex >= frames.length) {
+                return frames[frameIndex-1].style.display = "flex";
+            }
+
+            frames[frameIndex].style.display = "flex";
+            frameIndex++;
+
+            setTimeout(function () {
+                frames[frameIndex - 1].style.display = "none";
+                showNextFrame();
+            }, 1000);
+        }
+
+        showNextFrame();
+    </script>
+</body>
+</html>
