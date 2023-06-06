@@ -137,7 +137,7 @@ def run(
                     cnt.append(n)
                     lab.append(names[int(c)])
                 
-                
+                frame_xyxy = []
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
                     if save_txt:  # Write to file
@@ -150,9 +150,13 @@ def run(
                         c = int(cls)  # integer class
                         label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
                         annotator.box_label(xyxy, label, color=colors(c, True))
+                        if c == 0:
+                            int_values = [int(tensor.item()) for tensor in xyxy]
+                            frame_xyxy.append(int_values)
                     if save_crop:
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
-                        
+                    
+                    
             else:
                 cnt = [0,0,0]
                 lab = ["person","backpack","suitcase"]
