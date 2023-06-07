@@ -11,7 +11,8 @@
     <link href="https://cdn.jsdelivr.net/npm/toastui/dist/toastui.min.css" rel="stylesheet">
     
 </head>
-<!--<body class="bg-gray-200 p-10">
+<!--Video Object Detection-->
+<body class="bg-gray-200 p-10">
     <h4 class="text-2xl mb-4">Object Detection</h4>
     
     <video width="640" height="480" autoplay controls>
@@ -21,16 +22,6 @@
     <p id="object-info" class="flex flex-wrap">
         {% for index in range(length) %}
             <span class="label bg-blue-500 text-white px-2 py-1 rounded-full mb-2 mr-2 mt-2">{{ lab[index] }} : {{ cnt[index] }}</span>
-        {% endfor %}
-    </p>
-
-</body>-->
-<body class="bg-gray-200 p-10">
-    <h4 class="text-2xl mb-4">Image Object Detection</h4>
-    <img src="{{ save_path }}" alt="Image">
-    <p id="object-info" class="flex flex-wrap">
-        {% for index in range(length) %}  
-            {{ lab[index] }} : {{ cnt[index] }}&nbsp;&nbsp;
         {% endfor %}
     </p>
 </body>

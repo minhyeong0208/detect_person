@@ -2,12 +2,13 @@ from flask import Flask, render_template, request, jsonify
 from detect import run
 import os
 import cv2
+from tracking import person_tracker
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('home.html')
+    return render_template('home_frame.html')
 
 
 @app.route('/process_video', methods=['POST'])
@@ -49,7 +50,7 @@ def process_image():
             save_dir = '../image/frame/'  # 이미지를 저장할 경로와 파일명
             frame_path = os.path.join(save_dir, f"frame_{i}_{j}.png")
             cv2.imwrite(frame_path, frame)
-            cnt, lab, save_path = run(weights='yolov5s.pt', conf_thres=0.5, source=frame_path, exist_ok=True,
+            cnt, lab, save_path = run(weights='./runs/train/person_yolov5s_results/weights/best.pt', conf_thres=0.5, source=frame_path, exist_ok=True,
                                       line_thickness=2)
             result = {
                 'cnt': cnt,
@@ -68,12 +69,14 @@ def process_image():
             video_person.append(count_person)
             results.append(result)
         total_person.append(video_person)
+        print(total_person)
         results_list.append(results)
-    move_info=[{0:" 초기 탐색"},{1:"A 에서 B 로 1명 이동"},{2:"B 에서 A 로 2명 이동"},{3:"B 에서 외부로 1명 "}
-,{4:"A 에서 외부로 1명 이동"} ,{5:"외부에서 A 로 1명 이동"} ,{6:"A 에서 B 로 1명 이동"},{7:"외부에서 B 로 3명 이동"},{8:"B 에서 A 로 4명 이동"}]
+    #move_info=[{0:" 초기 탐색"},{1:"A 에서 B 로 1명 이동"},{2:"B 에서 A 로 2명 이동"},{3:"B 에서 외부로 1명 "}
+#,{4:"A 에서 외부로 1명 이동"} ,{5:"외부에서 A 로 1명 이동"} ,{6:"A 에서 B 로 1명 이동"},{7:"외부에서 B 로 3명 이동"},{8:"B 에서 A 로 4명 이동"}]
         
-    return render_template("result_frame.html", results_list=results_list, move_info=move_info)
-    #return jsonify(total=total)
+    move_info=person_tracker(total_person)
+    #return render_template("result_frame.html", results_list=results_list, move_info=move_info)
+    return jsonify(total_person=total_person)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('home.html')
+    return render_template('home_video.html')
 
 
 @app.route('/process_video', methods=['POST'])
@@ -28,7 +28,7 @@ def process_image():
     
     
     # 결과를 다른 템플릿으로 전달
-    return render_template("result.html", cnt=cnt, lab=lab, length=length, save_path=output_file)
+    return render_template("result_video.html", cnt=cnt, lab=lab, length=length, save_path=output_file)
 
 
 if __name__ == '__main__':

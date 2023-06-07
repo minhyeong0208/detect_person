@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOLOv5</title>
+    <!-- 테일윈드 CSS CDN 링크 -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.17/dist/tailwind.min.css" rel="stylesheet">
+    <!-- 토스트 UI CSS CDN 링크 -->
+    <link href="https://cdn.jsdelivr.net/npm/toastui/dist/toastui.min.css" rel="stylesheet">
+</head>
+<!--Image Object Detection-->
+<body class="bg-gray-200 p-10">
+    <h4 class="text-2xl mb-4">Image Object Detection</h4>
+    <img src="{{ save_path }}" alt="Image">
+    <p id="object-info" class="flex flex-wrap">
+        {% for index in range(length) %}  
+            {{ lab[index] }} : {{ cnt[index] }}&nbsp;&nbsp;
+        {% endfor %}
+    </p>
+</body>
+</html>
