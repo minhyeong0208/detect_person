@@ -13,7 +13,17 @@
     <style>
         .label {
             font-size: 12px;
-            /* 글자 크기를 조정할 수 있는 값으로 변경 */
+            background-color: #3B82F6; 
+            color: #FFFFFF; 
+            padding-left: 0.5rem; 
+            padding-right: 0.5rem; 
+            padding-top: 0.25rem; 
+            padding-bottom: 0.25rem; 
+            border-radius: 9999px; 
+            margin-bottom: 0.5rem; 
+            margin-right: 0.5rem; 
+            margin-top: 0.5rem;
+            height: 2rem;
         }
     </style>
 </head>
@@ -26,19 +36,27 @@
             <img src="{{ result.save_path }}" alt="Frame" width="300"><br>
             {% set cnt_length = result.cnt|length %}
             {% for i in range(cnt_length) %}
-            <span class="label">&nbsp;{{ result.lab[i] }} : {{ result.cnt[i] }}</span>
+                <span class="label">&nbsp;{{ result.lab[i] }} : {{ result.cnt[i] }}</span>
             {% endfor %}
         </div>
         {% endfor %}
     </div>
-    <div height="300">&nbsp;</div>
+    <div>
+        {% for info in move_info %}
+            <div class="alter" style="display: none; margin: 10px auto; font-size: 12px;">
+                {% for key, value in info.items() %}
+                    {{"Frame "}}{{ key }} : {{ value }}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
     <div class="grid grid-cols-2 gap-4">
         {% for result in results_list[1] %}
         <div class="frame2" style="display: none;">
             <img src="{{ result.save_path }}" alt="Frame" width="300">
             {% set cnt_length = result.cnt|length %}
             {% for i in range(cnt_length) %}
-            <span class="label">&nbsp;{{ result.lab[i] }} : {{ result.cnt[i] }}</span>
+                <span class="label">&nbsp;{{ result.lab[i] }} : {{ result.cnt[i] }}</span>
             {% endfor %}
         </div>
         {% endfor %}
@@ -65,6 +83,28 @@
         }
 
         showNextFrame1();
+    </script>
+    <script>
+        var alter = document.getElementsByClassName("alter");
+        var alterIndex = 0;
+
+        function showNextAlter() {
+            if (alterIndex >= alter.length) {
+                return alter[alterIndex - 1].style.display = "flex";
+            }
+
+            alter[alterIndex].style.display = "flex";
+            alterIndex++;
+
+            setTimeout(function () {
+                alter[alterIndex - 1].style.display = "none";
+                showNextAlter();
+            }, 1000);
+        }
+
+        setTimeout(showNextAlter, 0); // 2번째 프레임은 2초 뒤에 시작하도록 설정
+
+        // showNextFrame2();
     </script>
     <script>
         var frames2 = document.getElementsByClassName("frame2");

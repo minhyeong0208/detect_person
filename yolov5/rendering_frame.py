@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, jsonify
 from detect import run
 import os
 import cv2
-from frame_person import distract_person
 
 app = Flask(__name__)
 
@@ -42,7 +41,7 @@ def process_image():
         frames_list.append(frames)
 
     results_list = []
-    total = []
+    total_person = []
     for i, frames in enumerate(frames_list):
         results = []
         video_person = []    
@@ -68,12 +67,13 @@ def process_image():
             }
             video_person.append(count_person)
             results.append(result)
-        total.append(video_person)
-            
+        total_person.append(video_person)
         results_list.append(results)
-    #print(total)
-    return render_template("result_frame.html", results_list=results_list)
+    move_info=[{0:" 초기 탐색"},{1:"A 에서 B 로 1명 이동"},{2:"B 에서 A 로 2명 이동"},{3:"B 에서 외부로 1명 "}
+,{4:"A 에서 외부로 1명 이동"} ,{5:"외부에서 A 로 1명 이동"} ,{6:"A 에서 B 로 1명 이동"},{7:"외부에서 B 로 3명 이동"},{8:"B 에서 A 로 4명 이동"}]
+        
+    return render_template("result_frame.html", results_list=results_list, move_info=move_info)
     #return jsonify(total=total)
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
