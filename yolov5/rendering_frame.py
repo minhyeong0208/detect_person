@@ -26,7 +26,7 @@ def process_image():
         fps = int(cap.get(cv2.CAP_PROP_FPS))
 
         frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        duration = frame_count / fps
+        duration = frame_count / fps 
 
         current_time = 0
         while current_time < duration:
@@ -42,41 +42,44 @@ def process_image():
         frames_list.append(frames)
 
     results_list = []
-    total_person = []
+    total_person=[]
+    move_info=[]
     for i, frames in enumerate(frames_list):
         results = []
-        video_person = []    
+        video_person={}
         for j, frame in enumerate(frames):
             save_dir = '../image/frame/'  # 이미지를 저장할 경로와 파일명
             frame_path = os.path.join(save_dir, f"frame_{i}_{j}.png")
             cv2.imwrite(frame_path, frame)
-            cnt, lab, save_path = run(weights='./runs/train/person_yolov5s_results/weights/best.pt', conf_thres=0.5, source=frame_path, exist_ok=True,
+            cnt, lab, save_path = run(weights='yolov5s.pt', conf_thres=0.5, source=frame_path, exist_ok=True,
                                       line_thickness=2)
             result = {
                 'cnt': cnt,
                 'lab': lab,
-                'save_path': save_path,
+                'save_path': save_path
             }
             key = j
-            count_person = {}
             if lab[0] == 'person':
                 value = cnt[0]
             else:
                 value = 0
-            count_person = {
-                key : value
-            }
-            video_person.append(count_person)
+            video_person[key]=value
             results.append(result)
         total_person.append(video_person)
         print(total_person)
-        results_list.append(results)
-    #move_info=[{0:" 초기 탐색"},{1:"A 에서 B 로 1명 이동"},{2:"B 에서 A 로 2명 이동"},{3:"B 에서 외부로 1명 "}
-#,{4:"A 에서 외부로 1명 이동"} ,{5:"외부에서 A 로 1명 이동"} ,{6:"A 에서 B 로 1명 이동"},{7:"외부에서 B 로 3명 이동"},{8:"B 에서 A 로 4명 이동"}]
         
-    move_info=person_tracker(total_person)
-    #return render_template("result_frame.html", results_list=results_list, move_info=move_info)
-    return jsonify(total_person=total_person)
+        #results_list.append({"length":len(results)})
+        results_list.append(results)
+    #print(results_list)
+    #print(Total_person)
+    #print(total_person[0][1])
+    #print(total_person[1][1])
+    move_info=person_tracker(total_person)     
+    print(move_info)
+    
+    return render_template("result_frame.html", results_list=results_list,move_info=move_info)
+    #return jsonify(total_person=total_person)
+    #return jsonify(move_info=move_info)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='127.0.0.1', port=5000, debug=True)
