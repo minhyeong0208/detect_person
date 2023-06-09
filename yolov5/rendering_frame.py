@@ -26,7 +26,7 @@ def process_image():
         fps = int(cap.get(cv2.CAP_PROP_FPS))
 
         frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        duration = frame_count / fps 
+        duration = frame_count / fps
 
         current_time = 0
         while current_time < duration:
