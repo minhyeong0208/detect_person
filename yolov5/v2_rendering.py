@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('home_video.html')
+    return render_template('v2_home.html')
 
 
 @app.route('/process_video', methods=['POST'])
@@ -17,7 +17,7 @@ def process_image():
     upload_path = os.path.join(upload_dir, video_file.filename)
     
     # run 함수 실행
-    cnt, lab, save_path = run(weights='./runs/train/person_yolov5s_results/weights/best.pt', conf_thres=0.5, source=upload_path, exist_ok=True, line_thickness=2)
+    cnt, lab, save_path = run(weights='yolov5s.pt', conf_thres=0.5, source=upload_path, exist_ok=True, line_thickness=2)
     length = len(cnt)
     
     #인코딩 H.264
@@ -28,7 +28,7 @@ def process_image():
     
     
     # 결과를 다른 템플릿으로 전달
-    return render_template("result_video.html", cnt=cnt, lab=lab, length=length, save_path=output_file)
+    return render_template("v2_result.html", cnt=cnt, lab=lab, length=length, save_path=output_file)
 
 
 if __name__ == '__main__':
