@@ -11,55 +11,90 @@
     <!-- 토스트 UI CSS CDN 링크 -->
     <link href="https://cdn.jsdelivr.net/npm/toastui/dist/toastui.min.css" rel="stylesheet">
     <style>
+        body {
+            background-color: #F3F4F6;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        .title {
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #4B5563;
+        }
+        .results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        .frame {
+            background-color: #FFFFFF;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
         .label {
+            display: inline-block;
             font-size: 12px;
-            background-color: #3B82F6; 
-            color: #FFFFFF; 
-            padding-left: 0.5rem; 
-            padding-right: 0.5rem; 
-            padding-top: 0.25rem; 
-            padding-bottom: 0.25rem; 
-            border-radius: 9999px; 
-            margin-bottom: 0.5rem; 
-            margin-right: 0.5rem; 
-            margin-top: 0.5rem;
-            height: 2rem;
+            background-color: #3B82F6;
+            color: #FFFFFF;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            margin: 0.5rem;
+        }
+        .footer {
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4B5563;
+            margin-top: 2rem;
+        }
+
+        .alter {
+            display: none;
+            margin: 2rem auto;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4B5563;
         }
     </style>
 </head>
 
-<body class="bg-gray-200 p-10">
-    <h4 class="text-2xl mb-4">Object Detection</h4>
-    <div class="grid grid-cols-2 gap-4">
-        {% for result in results_list[0] %}
-        <div class="frame1" style="display: none;">
-            <img src="{{ result.save_path }}" alt="Frame" width="300"><br>
-            {% set cnt_length = result.cnt|length %}
-            {% for i in range(cnt_length) %}
-                <span class="label">&nbsp;{{ result.lab[i] }} : {{ result.cnt[i] }}</span>
-            {% endfor %}
-        </div>
-        {% endfor %}
-    </div>
-    <div>
-        {% for info in move_info %}
-            <div class="alter" style="display: none; margin: 10px auto; font-size: 12px;">
-                {% for key, value in info.items() %}
-                    {{"Frame "}}{{ key }} : {{ value }}
+<body>
+    <div class="container">
+        <h1 class="title">Object Detection</h1>
+        <div class="results">
+            {% for result in results_list[0] %}
+            <div class="frame frame1" style="display: none;">
+                <img src="{{ result.save_path }}" alt="Frame" width="100%"><br>
+                {% set cnt_length = result.cnt|length %}
+                {% for i in range(cnt_length) %}
+                <span class="label">{{ result.lab[i] }}: {{ result.cnt[i] }}</span>
                 {% endfor %}
             </div>
-        {% endfor %}
-    </div>
-    <div class="grid grid-cols-2 gap-4">
-        {% for result in results_list[1] %}
-        <div class="frame2" style="display: none;">
-            <img src="{{ result.save_path }}" alt="Frame" width="300">
-            {% set cnt_length = result.cnt|length %}
-            {% for i in range(cnt_length) %}
-                <span class="label">&nbsp;{{ result.lab[i] }} : {{ result.cnt[i] }}</span>
+            {% endfor %}
+            {% for result in results_list[1] %}
+            <div class="frame frame2" style="display: none;">
+                <img src="{{ result.save_path }}" alt="Frame" width="100%">
+                {% set cnt_length = result.cnt|length %}
+                {% for i in range(cnt_length) %}
+                <span class="label">{{ result.lab[i] }}: {{ result.cnt[i] }}</span>
+                {% endfor %}
+            </div>
             {% endfor %}
         </div>
+        {% for info in move_info %}
+        <div class="alter" style="display: none;">
+            {% for key, value in info.items() %} Frame {{ key }}: {{ value }} {% endfor %}
+        </div>
         {% endfor %}
+        <div class="footer">YOLOv5 Object Detection</div>
     </div>
     <!-- 토스트 UI JavaScript CDN 링크 -->
     <script src="https://cdn.jsdelivr.net/npm/toastui@2.2.17/dist/toastui.min.js"></script>
@@ -67,66 +102,24 @@
     <script>
         var frames1 = document.getElementsByClassName("frame1");
         var frameIndex1 = 0;
-
-        function showNextFrame1() {
-            if (frameIndex1 >= frames1.length) {
-                return frames1[frameIndex1 - 1].style.display = "flex";
-            }
-
-            frames1[frameIndex1].style.display = "flex";
-            frameIndex1++;
-
-            setTimeout(function () {
-                frames1[frameIndex1 - 1].style.display = "none";
-                showNextFrame1();
-            }, 1000);
-        }
-
-        showNextFrame1();
-    </script>
-    <script>
-        var alter = document.getElementsByClassName("alter");
-        var alterIndex = 0;
-
-        function showNextAlter() {
-            if (alterIndex >= alter.length) {
-                return alter[alterIndex - 1].style.display = "flex";
-            }
-
-            alter[alterIndex].style.display = "flex";
-            alterIndex++;
-
-            setTimeout(function () {
-                alter[alterIndex - 1].style.display = "none";
-                showNextAlter();
-            }, 1000);
-        }
-
-        setTimeout(showNextAlter, 0); // 2번째 프레임은 2초 뒤에 시작하도록 설정
-
-        // showNextFrame2();
-    </script>
-    <script>
+        showNextFrame(frames1, frameIndex1);
         var frames2 = document.getElementsByClassName("frame2");
         var frameIndex2 = 0;
+        setTimeout(function () { showNextFrame(frames2, frameIndex2); }, 2000);
+        var alter = document.getElementsByClassName("alter");
+        var alterIndex = 0;
+        showNextFrame(alter, alterIndex);
 
-        function showNextFrame2() {
-            if (frameIndex2 >= frames2.length) {
-                return frames2[frameIndex2 - 1].style.display = "flex";
+        function showNextFrame(frames, frameIndex) {
+            if (frameIndex >= frames.length) {
+                return frames[frameIndex - 1].style.display = "block";
             }
-
-            frames2[frameIndex2].style.display = "flex";
-            frameIndex2++;
-
+            frames[frameIndex].style.display = "block";
             setTimeout(function () {
-                frames2[frameIndex2 - 1].style.display = "none";
-                showNextFrame2();
+                frames[frameIndex].style.display = "none";
+                showNextFrame(frames, frameIndex + 1);
             }, 1000);
         }
-
-        setTimeout(showNextFrame2, 0); // 2번째 프레임은 2초 뒤에 시작하도록 설정
-
-        // showNextFrame2();
     </script>
 </body>
 
