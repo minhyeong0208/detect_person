@@ -45,6 +45,7 @@ def process_image():
     
         for frame_idx, frames in enumerate(video_results):
             frame_key = key_format.format(frame_idx + 1)
+            frame_key = frame_key.zfill(4)
             person_index = frames["lab"].index("person") if "person" in frames["lab"] else 0
             cnt_value = frames["cnt"][person_index] if person_index >= 0 else 0
         
