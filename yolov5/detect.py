@@ -131,10 +131,15 @@ def run(
                 for c in det[:, 5].unique():
                     #n = (det[:, 5] == c).sum()  # detections per class
                     n = int((det[:, 5] == c).sum())
-                    total_det_per_class = '%g %ss, ' % (n, names[int(c)])
-                    s += total_det_per_class + ', '
-                    cnt.append(n)
-                    lab.append(names[int(c)])
+
+                    if names[int(c)] == "person":
+                        total_det_per_class = '%g %ss, ' % (n, names[int(c)])
+                        s += total_det_per_class + ', '
+                        cnt.append(n)
+                        lab.append(names[int(c)])
+                    else:
+                        cnt.append(0)
+                        lab.append(names[int(c)])
                 
                 frame_xyxy = []
                 # Write results
@@ -157,8 +162,8 @@ def run(
                     
                     
             else:
-                cnt = [0,0,0]
-                lab = ["person","backpack","suitcase"]
+                cnt = [0]
+                lab = ["person"]
 
             # Stream results
             im0 = annotator.result()
