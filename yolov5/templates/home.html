@@ -93,6 +93,7 @@
                 </div>
             </div>
             <button type="button" onclick="addFileInput()" style="margin-bottom: 20px;">추가하기</button>
+            <button type="button" onclick="delFileInput()" style="margin-bottom: 20px;">삭제하기</button>
             <p class="note">원하시는 파일을 업로드 해주세요</p>
             <input type="submit" value="Detect" onclick="checkUpload(event)">
         </form>
@@ -116,6 +117,16 @@
             fileRow.appendChild(newInput);
             fileArea.appendChild(fileRow);
         }
+
+        function delFileInput() {
+            var fileArea = document.querySelector(".file-area");
+            var fileRows = fileArea.querySelectorAll(".file-row");
+
+            if (fileRows.length > 0) {
+                fileArea.removeChild(fileRows[fileRows.length - 1]);
+            }
+        }
+
 
         function checkUpload(event) {
             var fileInputs = document.querySelectorAll('.file-row input[type="file"]');

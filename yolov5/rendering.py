@@ -46,16 +46,15 @@ def process_image():
         for frame_idx, frames in enumerate(video_results):
             frame_key = key_format.format(frame_idx + 1)
             frame_key = frame_key.zfill(4)
+
             person_index = frames["lab"].index("person") if "person" in frames["lab"] else 0
             cnt_value = frames["cnt"][person_index] if person_index >= 0 else 0
         
             if frame_key not in final_result:
                 final_result[frame_key] = {}
         
-            if video_idx == 0:  # 첫 번째 영상의 경우 "cam1"에 추가
-                final_result[frame_key]["cam1"] = [cnt_value]
-            elif video_idx == 1:  # 두 번째 영상의 경우 "cam2"에 추가
-                final_result[frame_key]["cam2"] = [cnt_value]
+            cam_key = "cam" + str(video_idx + 1)
+            final_result[frame_key][cam_key] = [cnt_value]
             
 
     return jsonify(final_result)
