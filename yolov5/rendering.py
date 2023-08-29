@@ -56,8 +56,7 @@ def process_image():
                 final_result[frame_key]["cam1"] = [cnt_value]
             elif video_idx == 1:  # 두 번째 영상의 경우 "cam2"에 추가
                 final_result[frame_key]["cam2"] = [cnt_value]
-            elif video_idx == 2:  # 두 번째 영상의 경우 "cam2"에 추가
-                final_result[frame_key]["cam3"] = [cnt_value]
+            
 
     return jsonify(final_result)
 
