@@ -17,28 +17,18 @@ def index():
 def process_image():
     videos = request.files.getlist('video')  # 사용자가 업로드한 동영상 파일들
    
+    crowded_threshold = int(request.form.get('crowded'))  # 사용자가 입력한 '포화' 임계값
+
     frames_list = divide_frame(videos)
 
     results_list, total_person = save_frame(frames_list)
     
     move_info=person_tracker(total_person)     
     print(move_info)
-    
-    #return render_template("result.html", results_list=results_list,move_info=move_info)
 
     key_format = "{}s"
 
     final_result = {}
-    '''for idx, frames in enumerate(results_list[1]):
-        key = key_format.format(idx + 1)
-        person_index = frames["lab"].index("person") if "person" in frames["lab"] else 0
-        cnt_value = frames["cnt"][person_index] if person_index >= 0 else 0
-
-        final_result[key] = {
-            "cam2": [cnt_value],
-            #"lab": ["person"],
-            #"save_path": frames["save_path"]
-        }'''
     
     for video_idx, video_results in enumerate(results_list):
         video_key = key_format.format(video_idx + 1)
@@ -54,10 +44,11 @@ def process_image():
                 final_result[frame_key] = {}
         
             cam_key = "cam" + str(video_idx + 1)
-            final_result[frame_key][cam_key] = [cnt_value]
             
-
-    return jsonify(final_result)
-
+            # 인원 수에 따른 상태 결정 ('포화' 또는 '한적')
+            state_str =1 if cnt_value >= crowded_threshold else 0
+            
+            final_result[frame_key][cam_key] =[cnt_value,state_str]
+        return jsonify(final_result)
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True)
