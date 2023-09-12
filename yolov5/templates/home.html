@@ -95,6 +95,8 @@
             <button type="button" onclick="addFileInput()" style="margin-bottom: 20px;">추가하기</button>
             <button type="button" onclick="delFileInput()" style="margin-bottom: 20px;">삭제하기</button>
             <p class="note">원하시는 파일을 업로드 해주세요</p>
+          <p><label for='crowded'>포화:</label><input type='number' id='crowded' name='crowded'></p>
+<p class = 'note'>해당 카메라는 높이 x 넓이 y 폭 z m에서 촬영을 한기준입니다. 해당 기준을 통해 나오는 평수는 k 평수이니 해당 평수를 참조해서 위에 값을 입력해 주세요.</p>
             <input type="submit" value="Detect" onclick="checkUpload(event)">
         </form>
     </div>
