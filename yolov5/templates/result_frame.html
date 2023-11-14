@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOLOv5</title>
+    <!-- 테일윈드 CSS CDN 링크 -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.17/dist/tailwind.min.css" rel="stylesheet">
+    <!-- 토스트 UI CSS CDN 링크 -->
+    <link href="https://cdn.jsdelivr.net/npm/toastui/dist/toastui.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #F3F4F6;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        .title {
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #4B5563;
+        }
+        .results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        .frame {
+            background-color: #FFFFFF;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .label {
+            display: inline-block;
+            font-size: 12px;
+            background-color: #3B82F6;
+            color: #FFFFFF;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            margin: 0.5rem;
+        }
+        .footer {
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4B5563;
+            margin-top: 2rem;
+        }
+
+        .alter {
+            display: none;
+            margin: 2rem auto;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4B5563;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="title">Object Detection</h1>
+        <div class="results">
+            {% for result in results_list[0] %}
+            <div class="frame frame1" style="display: none;">
+                <img src="{{ result.save_path }}" alt="Frame" width="100%"><br>
+                {% set cnt_length = result.cnt|length %}
+                {% for i in range(cnt_length) %}
+                <span class="label">{{ result.lab[i] }}: {{ result.cnt[i] }}</span>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            {% for result in results_list[1] %}
+            <div class="frame frame2" style="display: none;">
+                <img src="{{ result.save_path }}" alt="Frame" width="100%">
+                {% set cnt_length = result.cnt|length %}
+                {% for i in range(cnt_length) %}
+                <span class="label">{{ result.lab[i] }}: {{ result.cnt[i] }}</span>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        {% for info in move_info %}
+        <div class="alter" style="display: none;">
+            {% for key, value in info.items() %} Frame {{ key }}: {{ value }} {% endfor %}
+        </div>
+        {% endfor %}
+        <div class="footer">YOLOv5 Object Detection</div>
+    </div>
+    <!-- 토스트 UI JavaScript CDN 링크 -->
+    <script src="https://cdn.jsdelivr.net/npm/toastui@2.2.17/dist/toastui.min.js"></script>
+
+    <script>
+        var frames1 = document.getElementsByClassName("frame1");
+        var frameIndex1 = 0;
+        showNextFrame(frames1, frameIndex1);
+        var frames2 = document.getElementsByClassName("frame2");
+        var frameIndex2 = 0;
+        setTimeout(function () { showNextFrame(frames2, frameIndex2); }, 2000);
+        var alter = document.getElementsByClassName("alter");
+        var alterIndex = 0;
+        showNextFrame(alter, alterIndex);
+
+        function showNextFrame(frames, frameIndex) {
+            if (frameIndex >= frames.length) {
+                return frames[frameIndex - 1].style.display = "block";
+            }
+            frames[frameIndex].style.display = "block";
+            setTimeout(function () {
+                frames[frameIndex].style.display = "none";
+                showNextFrame(frames, frameIndex + 1);
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>

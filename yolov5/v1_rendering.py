@@ -18,7 +18,7 @@ def process_image():
     image_file.save(save_path)  # 이미지 파일 저장
 
     # run 함수 실행
-    cnt, lab = run(weights='yolov5s.pt', conf_thres=0.5, source=save_path, exist_ok=True, line_thickness=2)
+    cnt, lab = run(weights='yolov5s.pt', conf_thres=0.5, source=save_path, exist_ok=True, line_thickness=1)
     length = len(cnt)
 
     # 결과를 다른 템플릿으로 전달
